@@ -5,7 +5,6 @@ import * as Checkbox from '@radix-ui/react-checkbox'
 import { useEffect, useState, FormEvent } from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import axios from 'axios'
-
 interface gameProps {
   id: string
   title: string
@@ -22,30 +21,30 @@ export function CreateAdModal() {
     })
   }, [])
 
- async function handleCreateAD(event: FormEvent) {
+  async function handleCreateAD(event: FormEvent) {
     event.preventDefault()
 
     const formData = new FormData(event.target as HTMLFormElement)
     const data = Object.fromEntries(formData)
 
-    if(!data.name) {
+    if (!data.name) {
       return
     }
 
     try {
       await axios.post(`http://localhost:8880/games/${data.game}/ads`, {
-      name: data.name,
-      yearsPlaying: Number(data.yearsPlaying),
-      discord: data.discord,
-      weekDays: weekDays.map(Number),
-      hourStart: data.hourStart,
-      hourEnd: data.hourEnd,
-      useVoiceChannel: useVoice
-    })
-    alert('Anúncio criado!')
-  } catch (err) {
-    console.log(err)
-    alert('Error ao criar o anúncio')
+        name: data.name,
+        yearsPlaying: Number(data.yearsPlaying),
+        discord: data.discord,
+        weekDays: weekDays.map(Number),
+        hourStart: data.hourStart,
+        hourEnd: data.hourEnd,
+        useVoiceChannel: useVoice
+      })
+      alert('Anúncio criado!')
+    } catch (err) {
+      console.log(err)
+      alert('Error ao criar o anúncio')
     }
   }
 
@@ -92,6 +91,7 @@ export function CreateAdModal() {
               placeholder="Como te chamam dentro do game?"
               id="name"
               name="name"
+              required
             />
           </div>
 
@@ -104,6 +104,7 @@ export function CreateAdModal() {
                 id="yearsPlaying"
                 name="yearsPlaying"
                 placeholder="Tudo bem ser ZERO"
+                required
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -115,6 +116,7 @@ export function CreateAdModal() {
                 placeholder="Usuario#0000"
                 id="discord"
                 name="discord"
+                required
               />
             </div>
           </div>
@@ -206,12 +208,14 @@ export function CreateAdModal() {
                   id="hourStart"
                   name="hourStart"
                   placeholder="De"
+                  required
                 />
                 <Input
                   type="time"
                   id="hourEnd"
                   name="hourEnd"
                   placeholder="Até"
+                  required
                 />
               </div>
             </div>

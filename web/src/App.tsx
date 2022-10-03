@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { CreateAdModal } from './components/CreateAdModal'
 import axios from 'axios'
+import { useKeenSlider } from 'keen-slider/react'
+import "keen-slider/keen-slider.min.css"
 interface gameProps {
   id: string
   title: string
@@ -22,6 +24,20 @@ function App() {
       .then(res => {setGame(res.data)})
   }, [])
 
+  const [ref] = useKeenSlider<HTMLDivElement>({
+    initial: 0,
+    loop: {
+      min: 1,
+      max: game.length,
+    },
+    mode: "free",
+    slides: {
+      perView: 5,
+      spacing: 10,
+    },
+  })
+  
+
   return (
     <div className="max-w-[1344px] mx-auto flex items-center flex-col my-20">
       <img src={logoImage} />
@@ -35,7 +51,7 @@ function App() {
         está aqui.
       </h1>
 
-      <div className="flex mt-16 gap-3 mx-6"> 
+      <div ref={ref} className="flex mt-16 keen-slider"> 
         {game.map(game => {
           return (
             <GameBanner
